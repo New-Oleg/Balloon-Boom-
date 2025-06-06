@@ -2,6 +2,11 @@ using UnityEngine;
 
 public abstract class AEntety : MonoBehaviour
 {
+    [SerializeField]
+    protected Sprite[] sprites;
+
+    protected static float _speed = 10;
+    public abstract void OnMouseDown();
     public abstract void Init();
 
     public abstract void Move(); 
@@ -10,5 +15,6 @@ public abstract class AEntety : MonoBehaviour
 
     public abstract void Boom();
 
-    public abstract void OnMouseDown();
+    public void Dead() => Destroy(gameObject);
+
 }
