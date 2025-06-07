@@ -14,7 +14,11 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI HraltsText;
 
+    private Tween _ButtonTween;
+    private Tween _BackGroundTween;
+
     private int count;
+    private bool _IsPlay;
 
     private MainController _MC = new MainController();
     private Healts _hp = new Healts(3);
@@ -27,12 +31,33 @@ public class GameController : MonoBehaviour
         Bomb.HealtsLoss += HpLoss;
 
         HraltsText.text = _hp.GetHp() + "";
+        _ButtonTween =  Buttons.DOMoveY(-367.3f, 0.5f).Pause().SetAutoKill(false).OnComplete(() => _MC.StarTimers());
+        _BackGroundTween = BackGround.DOMoveY(BackGround.position.y - 6.4f, 0.8f).Pause().SetAutoKill(false);
     }
 
     public void Play()
     {
-        Buttons.DOMoveY(-367.3f, 0.5f).OnComplete(() => _MC.StarTimer());
-        BackGround.DOMoveY(BackGround.position.y - 6.4f, 0.8f);
+        _IsPlay = true;
+        _ButtonTween.PlayForward();
+        _BackGroundTween.PlayForward();
+    }
+
+
+    private void Update()
+    {
+        if (_hp.GetHp() <= 0)
+        {
+            loos();
+        }
+    }
+
+    public void loos()
+    {
+        _IsPlay = false;
+        _MC.StopTimers();
+        _ButtonTween.PlayBackwards();
+        _BackGroundTween.PlayBackwards();
+        _hp = new Healts(3);
     }
 
 
@@ -45,6 +70,7 @@ public class GameController : MonoBehaviour
     public void HpLoss()
     {
         _hp.HpLoss();
+        if(_IsPlay)
         HraltsText.text = _hp.GetHp() + "";
     }
 

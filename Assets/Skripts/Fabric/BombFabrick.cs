@@ -16,4 +16,10 @@ public class BombFabrick
         Spavn();
         _BombSpavnTimer.Start(Random.Range(1f, _maxSpavnTime),() => StartFactory());
     }
+
+
+    public static void StopFactory()
+    {
+        _BombSpavnTimer.Kill();
+    }
 }

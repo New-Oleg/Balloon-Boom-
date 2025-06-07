@@ -29,5 +29,10 @@ namespace Fabrick
 
             _BalonSpavnTimer.Start(_SpavnTime, () => StartFactory());
         }
+
+        public static void StopFactory() 
+        {
+            _BalonSpavnTimer.Kill();
+        }
     }
 }

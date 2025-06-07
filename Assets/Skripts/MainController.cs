@@ -10,11 +10,19 @@ public class MainController
 
   
 
-    public void StarTimer()
+    public void StarTimers()
     {
         CompleatSpeedTimer();
         BolonFabrick.StartFactory();
         BombFabrick.StartFactory();
+    }
+
+    public void StopTimers()
+    {
+        BolonFabrick.StopFactory();
+        BombFabrick.StopFactory();
+
+        _SpeedMultiplayTimer.Kill();
     }
 
     private void CompleatSpeedTimer()
