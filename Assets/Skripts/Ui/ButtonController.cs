@@ -30,7 +30,6 @@ public class GameController : MonoBehaviour
 
         Bomb.HealtsLoss += HpLoss;
 
-        HraltsText.text = _hp.GetHp() + "";
         _ButtonTween =  Buttons.DOMoveY(-367.3f, 0.5f).Pause().SetAutoKill(false).OnComplete(() => _MC.StarTimers());
         _BackGroundTween = BackGround.DOMoveY(BackGround.position.y - 6.4f, 0.8f).Pause().SetAutoKill(false);
     }
@@ -40,6 +39,9 @@ public class GameController : MonoBehaviour
         _IsPlay = true;
         _ButtonTween.PlayForward();
         _BackGroundTween.PlayForward();
+        HraltsText.gameObject.SetActive(true);
+        _hp = new Healts(3);
+        HraltsText.text = _hp.GetHp() + "";
     }
 
 
@@ -53,11 +55,11 @@ public class GameController : MonoBehaviour
 
     public void loos()
     {
-        _IsPlay = false;
+        _IsPlay = false; 
+        HraltsText.gameObject.SetActive(false);
         _MC.StopTimers();
         _ButtonTween.PlayBackwards();
         _BackGroundTween.PlayBackwards();
-        _hp = new Healts(3);
     }
 
 
