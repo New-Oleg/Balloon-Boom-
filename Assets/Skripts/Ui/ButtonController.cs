@@ -40,6 +40,7 @@ public class GameController : MonoBehaviour
         _ButtonTween.PlayForward();
         _BackGroundTween.PlayForward();
         HraltsText.gameObject.SetActive(true);
+
         _hp = new Healts(3);
         HraltsText.text = _hp.GetHp() + "";
     }
