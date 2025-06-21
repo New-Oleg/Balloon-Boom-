@@ -2,11 +2,14 @@ using DG.Tweening;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.Rendering;
 
 public class GameController : MonoBehaviour
 {
     [SerializeField]
     private RectTransform Buttons;
+    [SerializeField]
+    private RectTransform ShopPanel;
     [SerializeField]
     private Transform BackGround;
     [SerializeField]
@@ -16,6 +19,9 @@ public class GameController : MonoBehaviour
 
     private Tween _ButtonTween;
     private Tween _BackGroundTween;
+
+    private Tween _SclaeShopTween ;
+    private Tween _PosicionShopTween;
 
     private int count;
     private bool _IsPlay;
@@ -32,6 +38,11 @@ public class GameController : MonoBehaviour
 
         _ButtonTween =  Buttons.DOMoveY(-367.3f, 0.5f).Pause().SetAutoKill(false).OnComplete(() => _MC.StarTimers());
         _BackGroundTween = BackGround.DOMoveY(BackGround.position.y - 6.4f, 0.8f).Pause().SetAutoKill(false);
+
+        _SclaeShopTween = ShopPanel.DOScale(new Vector3(1f, 1f, 1f), 0.5f)
+            .SetEase(Ease.InOutQuad).Pause().SetAutoKill(false);
+        _PosicionShopTween = ShopPanel.DOAnchorPos(new Vector2(7.61529922f, 165.726089f), 0.5f).SetEase(Ease.InOutQuad)
+            .SetEase(Ease.InOutQuad).Pause().SetAutoKill(false);
     }
 
     public void Play()
@@ -43,6 +54,21 @@ public class GameController : MonoBehaviour
 
         _hp = new Healts(3);
         HraltsText.text = _hp.GetHp() + "";
+    }
+
+    public void OpenCloseShop()
+    {
+        if(!ShopPanel.gameObject.activeSelf){
+
+            ShopPanel.gameObject.SetActive(true);
+            _SclaeShopTween.PlayForward();
+            _PosicionShopTween.PlayForward();
+        }
+        else
+        {
+            _SclaeShopTween.PlayBackwards();  
+            _PosicionShopTween.OnRewind(() => ShopPanel.gameObject.SetActive(false)).PlayBackwards();
+        }
     }
 
 
@@ -78,3 +104,4 @@ public class GameController : MonoBehaviour
     }
 
 }
+
